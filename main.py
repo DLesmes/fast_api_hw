@@ -4,7 +4,11 @@ from enum import Enum
 
 #Pydantic
 from pydantic import BaseModel
-from pydantic import Field
+from pydantic import Field,\
+                    EmailStr,\
+                    PaymentCardNumber,\
+                    PositiveFloat,\
+                    HttpUrl
 
 from fastapi import FastAPI
 from fastapi import Body, Query, Path
@@ -21,33 +25,55 @@ class HairColor(str, Enum):
     red = "red"
 
 class Location(BaseModel): 
-    city: str
-    state: str
-    country: str
+    city: str = Field(..., 
+                        min_length=1,
+                        max_length=50,
+                        regex='^[A-Za-z]*$',
+                        example="Bogota"
+                        )
+    state: str = Field(..., 
+                        min_length=1,
+                        max_length=50,
+                        regex='^[A-Za-z]*$',
+                        example="Bogota"
+                        )
+    country: str = Field(..., 
+                        min_length=1,
+                        max_length=50,
+                        regex='^[A-Za-z]*$',
+                        example="Colombia"
+                        )
 
 class Person(BaseModel): 
-    first_name: str = Field(
-        ..., 
-        min_length=1,
-        max_length=50,
-        regex='^[A-Za-z]*$',
-        example="Miguel"
-        )
-    last_name: str = Field(
-        ..., 
-        min_length=1,
-        max_length=50,
-        regex='^[A-Za-z]*$',
-        example="Torres"
-        )
-    age: int = Field(
-        ...,
-        gt=0,
-        le=115,
-        example=25
-    )
+    first_name: str = Field(..., 
+                            min_length=1,
+                            max_length=50,
+                            regex='^[A-Za-z]*$',
+                            example="Miguel"
+                            )
+    last_name: str = Field(..., 
+                            min_length=1,
+                            max_length=50,
+                            regex='^[A-Za-z]*$',
+                            example="Torres"
+                            )
+    age: int = Field(...,
+                    gt=0,
+                    le=115,
+                    example=25
+                    )
+    email: EmailStr = Field(...,
+                            title="Person Email"
+                            )
+    credit_card: PaymentCardNumber = Field(...,
+                                            title="Payment Card"
+                                            )
+    website: HttpUrl = Field(...,
+                            title="linkedin profile"
+                            )    
     hair_color: Optional[HairColor] = Field(default=None, example=HairColor.black)
     is_married: Optional[bool] = Field(default=None, example=False)
+    weight: Optional[PositiveFloat] = Field(default=None)
 
 
 @app.get("/") # Called Path operation decorator
