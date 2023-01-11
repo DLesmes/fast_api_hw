@@ -63,7 +63,7 @@ class Person(BaseModel):
                     example=25
                     )
     email: EmailStr = Field(...,
-                            title="Person Email"
+                            title="Person Email",
                             )
     credit_card: PaymentCardNumber = Field(...,
                                             title="Payment Card"
@@ -73,8 +73,22 @@ class Person(BaseModel):
                             )    
     hair_color: Optional[HairColor] = Field(default=None, example=HairColor.black)
     is_married: Optional[bool] = Field(default=None, example=False)
-    weight: Optional[PositiveFloat] = Field(default=None)
+    weight: Optional[PositiveFloat] = Field(default=None, example=66)
 
+    class Config: 
+        schema_extra = {
+            "example": {
+                "first_name": "Jim",
+                "last_name": "Rogers",
+                "age": 21, 
+                "email": "jim.rogers@mail.com",
+                "credit_card" : "0000999988887777",
+                "website" : "https://github.com/DLesmes",
+                "hair_color": "blonde",
+                "is_married": False,
+                "weight" : "65"
+            }
+        }
 
 @app.get("/") # Called Path operation decorator
 def home(): # Called path operation function
