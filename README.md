@@ -2,7 +2,30 @@
 
 [FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/) theory and sandbox
 
-## Recommended lectures
+## Clone
+
+Clone the repo using Git:
+
+```
+git clone git@github.com:DLesmes/fast_api_hw.git
+```
+
+## Usage
+
+* Set python venv with the [requirements.txt](https://github.com/DLesmes/fast_api_hw/blob/main/requirements.txt)
+
+```
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+* Run the server
+
+```
+uvicorn main:app --reload
+```
+
+### Recommended lectures
 
 * [Documentation](https://hackmd.io/rK8aSVH3Qg-ICKuKGOO01w)
 * [https://www.openapis.org/](https://www.openapis.org/)
