@@ -31,6 +31,7 @@ uvicorn main:app --reload
 * [https://www.openapis.org/](https://www.openapis.org/)
 * GitHub - Redocly/redoc: 📘 [OpenAPI/Swagger-generated API Reference Documentation](https://github.com/Redocly/redoc)
 * [API Documentation & Design Tools for Teams | Swagger](https://swagger.io/)
-* [Class repo](https://github.com/platzi/curso-fastapi-fundamentos-path-validaciones/blob/request_response_body/main.py)
+* [Class Intro repo](https://github.com/platzi/curso-fastapi-fundamentos-path-validaciones/blob/request_response_body/main.py)
+* [Class Intermediate repo](https://github.com/platzi/curso-fastapi-modularizacion-datos-errores)
 * [Query params str validations](https://fastapi.tiangolo.com/tutorial/query-params-str-validations/)
 * [Field types - pydantic](https://docs.pydantic.dev/usage/types/#pydantic-types)
