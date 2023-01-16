@@ -8,7 +8,8 @@ from pydantic import Field,\
                     EmailStr,\
                     PaymentCardNumber,\
                     PositiveFloat,\
-                    HttpUrl
+                    HttpUrl,\
+                    SecretStr
 
 from fastapi import FastAPI
 from fastapi import Body, Query, Path
@@ -44,7 +45,7 @@ class Location(BaseModel):
                         example="Colombia"
                         )
 
-class Person(BaseModel): 
+class PersonOut(BaseModel): 
     first_name: str = Field(..., 
                             min_length=1,
                             max_length=50,
@@ -75,6 +76,12 @@ class Person(BaseModel):
     is_married: Optional[bool] = Field(default=None, example=False)
     weight: Optional[PositiveFloat] = Field(default=None, example=66)
 
+class Person(PersonOut):
+    password: SecretStr = Field(...,
+                        title="Password",
+                        min_length=8
+                        )
+
     class Config: 
         schema_extra = {
             "example": {
@@ -86,9 +93,11 @@ class Person(BaseModel):
                 "website" : "https://github.com/DLesmes",
                 "hair_color": "blonde",
                 "is_married": False,
-                "weight" : "65"
+                "weight" : "65",
+                "password": "asdfghtyy"
             }
         }
+
 
 @app.get("/") # Called Path operation decorator
 def home(): # Called path operation function
@@ -97,7 +106,7 @@ def home(): # Called path operation function
 
 # Request and Response Body
 
-@app.post("/person/new")
+@app.post("/person/new", response_model=PersonOut)
 def create_person(person: Person = Body(...)): 
     return person
 
