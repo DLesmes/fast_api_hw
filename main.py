@@ -13,7 +13,10 @@ from pydantic import Field,\
 
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Query, Path
+from fastapi import Body,\
+                    Query,\
+                    Path,\
+                    Form
 
 app = FastAPI()
 
@@ -73,15 +76,21 @@ class PersonOut(BaseModel):
     website: HttpUrl = Field(...,
                             title="linkedin profile"
                             )    
-    hair_color: Optional[HairColor] = Field(default=None, example=HairColor.black)
-    is_married: Optional[bool] = Field(default=None, example=False)
-    weight: Optional[PositiveFloat] = Field(default=None, example=66)
+    hair_color: Optional[HairColor] = Field(default=None,
+                                            example=HairColor.black
+                                            )
+    is_married: Optional[bool] = Field(default=None,
+                                        example=False
+                                        )
+    weight: Optional[PositiveFloat] = Field(default=None,
+                                            example=66
+                                            )
 
 class Person(PersonOut):
     password: SecretStr = Field(...,
-                        title="Password",
-                        min_length=8
-                        )
+                                title="Password",
+                                min_length=8
+                                )
 
     class Config: 
         schema_extra = {
@@ -99,6 +108,12 @@ class Person(PersonOut):
             }
         }
 
+class LoginOut(BaseModel): 
+    username: str = Field(...,
+                        max_length=20,
+                        example="miguel2021"
+                        )
+    message: str = Field(default="Login Succesfully!")
 
 @app.get(path="/",
         status_code=status.HTTP_200_OK
@@ -140,28 +155,37 @@ def show_person(
         status_code=status.HTTP_201_CREATED
         )
 def show_person(
-    person_id: int = Path(...,
-                        gt=0,
-                        example=123)
-): 
+                person_id: int = Path(...,
+                                    gt=0,
+                                    example=123)
+                ): 
     return {person_id: "It exists!"}
 
 # Validaciones: Request Body
 
 @app.put(path="/person/{person_id}",
-        status_code=status.HTTP_202_ACCEPTED
+        status_code=status.HTTP_204_NO_CONTENT
         )
 def update_person(
-    person_id: int = Path(
-        ...,
-        title="Person ID",
-        description="This is the person ID",
-        gt=0,
-        example=123
-    ),
+    person_id: int = Path(...,
+                        title="Person ID",
+                        description="This is the person ID",
+                        gt=0,
+                        example=123
+                        ),
     person: Person = Body(...),
     location: Location = Body(...)
-): 
+    ): 
     results = person.dict()
     results.update(location.dict())
     return results
+
+@app.post(
+    path="/login",
+    response_model=LoginOut,
+    status_code=status.HTTP_200_OK
+    )
+def login(username: str = Form(...),
+        password: str = Form(...)
+        ): 
+    return LoginOut(username=username)
