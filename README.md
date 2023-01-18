@@ -19,10 +19,13 @@ python3 -m venv venv
 source venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
-* Run the server
+* Run the server you have two options
 
 ```
 uvicorn main:app --reload
+```
+```
+python3 main.py
 ```
 
 ### Recommended lectures
