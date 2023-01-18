@@ -1,3 +1,6 @@
+#uvicorn
+import uvicorn
+
 #Python
 from typing import Optional
 from enum import Enum
@@ -361,3 +364,11 @@ def post_image(
         'format': image.content_type,
         'size(kb)': round(len(image.file.read()) / 1024, 2)
     }
+
+if __name__ == "__main__":uvicorn.run(
+        "__main__:app",
+        host="localhost",
+        port=8000,
+        reload=True,
+        workers=2
+    )
