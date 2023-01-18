@@ -13,6 +13,7 @@ from pydantic import Field,\
 
 from fastapi import FastAPI
 from fastapi import status
+from fastapi import HTTPException
 from fastapi import Body,\
                     Query,\
                     Path,\
@@ -155,14 +156,24 @@ def show_person(
 
 # Validaciones: Path Parameters
 
-@app.get(path="/person/detail/{person_id}",
-        status_code=status.HTTP_201_CREATED
-        )
+persons = [1, 2, 3, 4, 5]
+
+@app.get(
+    path="/person/detail/{person_id}",
+    status_code=status.HTTP_201_CREATED
+)
 def show_person(
-                person_id: int = Path(...,
-                                    gt=0,
-                                    example=123)
-                ): 
+    person_id: int = Path(
+        ...,
+        gt=0,
+        example=123
+    )
+):
+    if person_id not in persons: 
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="¡This person doesn't exist!"
+        )
     return {person_id: "It exists!"}
 
 # Validaciones: Request Body
