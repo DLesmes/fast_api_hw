@@ -2,19 +2,18 @@
 
 [FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/) theory and sandbox
 
-## Clone
+## Usage
 
-Clone the repo using Git:
+* Clone the repo using Git:
 
 ```
 git clone git@github.com:DLesmes/fast_api_hw.git
 ```
 
-## Usage
-
 * Set python venv with the [requirements.txt](https://github.com/DLesmes/fast_api_hw/blob/main/requirements.txt)
 
 ```
+cd fast_api_hw
 python3 -m venv venv
 source venv/bin/activate
 python3 -m pip install -r requirements.txt
