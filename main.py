@@ -18,7 +18,9 @@ from fastapi import Body,\
                     Path,\
                     Form,\
                     Header,\
-                    Cookie
+                    Cookie,\
+                    UploadFile,\
+                    File
 
 app = FastAPI()
 
@@ -218,3 +220,17 @@ def contact(
     ads: Optional[str] = Cookie(default=None)
 ): 
     return user_agent
+
+#files
+
+@app.post(
+    path='/post-image'
+)
+def post_image(
+    image: UploadFile = File(...)
+):
+    return {
+        'filename': image.filename,
+        'format': image.content_type,
+        'size(kb)': round(len(image.file.read()) / 1024, 2)
+    }
