@@ -35,3 +35,5 @@ uvicorn main:app --reload
 * [Class Intermediate repo](https://github.com/platzi/curso-fastapi-modularizacion-datos-errores)
 * [Query params str validations](https://fastapi.tiangolo.com/tutorial/query-params-str-validations/)
 * [Field types - pydantic](https://docs.pydantic.dev/usage/types/#pydantic-types)
+* [Cookie Params](https://fastapi.tiangolo.com/tutorial/cookie-params/)
+* [Header Params](https://fastapi.tiangolo.com/tutorial/header-params/)
