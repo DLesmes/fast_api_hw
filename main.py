@@ -126,6 +126,13 @@ class LoginOut(BaseModel):
     tags=["Pages"]
 ) # Called Path operation decorator
 def home(): # Called path operation function
+    """
+    Home page of the API
+
+    This path returns the home page of the API.
+
+    No parameters are required.
+    """
     return {"message": "Hello World"}
 
 
@@ -135,9 +142,21 @@ def home(): # Called path operation function
     path="/person/new",
     response_model=PersonOut,
     status_code=status.HTTP_201_CREATED,
-    tags=["Persons"]
+    tags=["Persons"],
+    summary='Create Person in the app'
 )
-def create_person(person: Person = Body(...)): 
+def create_person(person: Person = Body(...)):
+    '''
+    Create Person
+
+    This path operation creates a person in the app and save the information in the database
+    
+    Parameters:
+    - Request body parameter:
+        - **person: Person** -> A person model with first name, last name, age, hair color and marital status
+    
+    Returns a person model with first name, last name, age, hair color and marital status
+    '''
     return person
 
 # Validaciones: Query Parameters
@@ -148,16 +167,31 @@ def create_person(person: Person = Body(...)):
     tags=["Persons"]
 )
 def show_person(
-    name: Optional[str] = Query(None,
-                                min_length=1,
-                                max_length=50,
-                                title="Person Name",
-                                description="This is the person name. It's between 1 and 50 characters",
-                                example="Rocío"),
-    age: str = Query(...,
-                    title="Person Age",
-                    description="This is the person age. It's required",
-                    example=25)): 
+    name: Optional[str] = Query(
+        None,
+        min_length=1,
+        max_length=50,
+        title="Person Name",
+        description="This is the person name. It's between 1 and 50 characters",
+        example="Rocío"
+    ),
+    age: str = Query(
+        ...,
+        title="Person Age",
+        description="This is the person age. It's required",
+        example=25
+    )
+):
+    """Show Person
+    
+    This path operator that show the details of a person query
+
+    - Query paramethers: 
+        - **name (Optional[str])**: The person name that must have some conditions ( None, min_length=1, max_length=50, title="Person Name", description="This is the person name. It's between 1 and 50 characters", example="Rocío" )
+        - **age (str, optional)**: The person age that must have some conditions ( ..., title="Person Age", description="This is the person age. It's required", example=25 )
+
+    Returns a json: The person's name as the key and age as the values
+    """
     return {name: age}
 
 # Validaciones: Path Parameters
@@ -176,6 +210,17 @@ def show_person(
         example=123
     )
 ):
+    """
+    Show Person
+
+    This path operation shows the person's ID in the app from the database.
+
+    Parameters:
+    - Path parameter:
+        - **person_id: int** -> This is the person ID. It's required and must be greater than 0.
+
+    Returns a JSON with the person's ID.
+    """
     if person_id not in persons: 
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -191,18 +236,34 @@ def show_person(
     tags=["Persons"]
 )
 def update_person(
-    person_id: int = Path(...,
-                        title="Person ID",
-                        description="This is the person ID",
-                        gt=0,
-                        example=123
-                        ),
+    person_id: int = Path(
+        ...,
+        title="Person ID",
+        description="This is the person ID",
+        gt=0,
+        example=123
+    ),
     person: Person = Body(...),
     location: Location = Body(...)
-    ): 
+): 
+    """
+    Update Person
+
+    This path operation updates the person's information from the database.
+
+    Parameters:
+    - Path parameter:
+        - **person_id: int** -> This is the person ID. It's required and must be greater than 0.
+    - Request body parameter:
+        - **person: Person** -> A person model with first name, last name, age, hair color, is married, email, payment card number, favorite color and password.
+        - **location: Location** -> A location model with city, state and country.
+
+    Returns a JSON with the person's ID, its model and location.
+    """
     results = person.dict()
     results.update(location.dict())
     return results
+
 #forms
 @app.post(
     path="/login",
@@ -213,9 +274,22 @@ def update_person(
         "Pages"
     ]
 )
-def login(username: str = Form(...),
-        password: str = Form(...)
-        ): 
+def login(
+    username: str = Form(...),
+    password: str = Form(...)
+): 
+    """
+    User login
+
+    This path operation allows you to login in the app.
+
+    Parameters:
+    - Request body parameter:
+        - **username: str** -> This is the username to enter in the form. It's required.
+        - **password: str** -> This is the password to enter in the form. It's required.
+
+    Returns a JSON with the username and a message.
+    """
     return LoginOut(username=username)
 
 # Cookies and Headers Parameters
@@ -243,7 +317,22 @@ def contact(
     ),
     user_agent: Optional[str] = Header(default=None),
     ads: Optional[str] = Cookie(default=None)
-): 
+):
+    """
+    Contact
+
+    This path operation allows the user to contact the company.
+
+    Parameters:
+    - user_agent: The browser that the user is using.
+    - ads: The cookies that this website uses.
+    - Request body parameter:
+        - **first_name: str** -> This is the first name to enter in the form. It's required.
+        - **last_name: str** -> This is the last name to enter in the form. It's required.
+        - **email: EmailStr** -> This is the email to enter in the form. It's required.
+        - **message: str** -> This is the message to enter in the form. It's required.
+
+    """
     return user_agent
 
 #files
@@ -255,6 +344,17 @@ def contact(
 def post_image(
     image: UploadFile = File(...)
 ):
+    """
+    Post image
+
+    This path operation allows you to post an image in the app to the database.
+
+    Parameters:
+    - Request body parameter:
+        - **image: UploadFile** -> This is the image to upload. It's required.
+
+    Returns a JSON with the image's name, format and size in kb.
+    """
     return {
         'filename': image.filename,
         'format': image.content_type,
