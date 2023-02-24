@@ -39,3 +39,4 @@ python3 main.py
 * [Field types - pydantic](https://docs.pydantic.dev/usage/types/#pydantic-types)
 * [Cookie Params](https://fastapi.tiangolo.com/tutorial/cookie-params/)
 * [Header Params](https://fastapi.tiangolo.com/tutorial/header-params/)
+* [Security](https://fastapi.tiangolo.com/tutorial/security/)
