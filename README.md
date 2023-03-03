@@ -36,7 +36,6 @@ python3 main.py
 * [Class Intro repo](https://github.com/platzi/curso-fastapi-fundamentos-path-validaciones/blob/request_response_body/main.py)
 * [Class Intermediate repo](https://github.com/platzi/curso-fastapi-modularizacion-datos-errores)
 * [Python types](https://fastapi.tiangolo.com/es/python-types/)
-* [Security](https://fastapi.tiangolo.com/tutorial/security/)
 * [Query params str validations](https://fastapi.tiangolo.com/tutorial/query-params-str-validations/)
 * [Field types - pydantic](https://docs.pydantic.dev/usage/types/#pydantic-types)
 * [Cookie Params](https://fastapi.tiangolo.com/tutorial/cookie-params/)
